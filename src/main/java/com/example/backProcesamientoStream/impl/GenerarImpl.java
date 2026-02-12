@@ -32,6 +32,9 @@ public class GenerarImpl {
 
     public String generarCotizacionesCsv() {
         int page = properties.getDefaultPage();
+        int size = properties.getDefaultSize();
+        boolean autoPaginate = properties.getAutoPaginate();
+
         boolean hayDatos = true;
 
         log.info("=====================================================");
@@ -54,9 +57,9 @@ public class GenerarImpl {
 
             do {
 
-                log.info("Consultando base de datos → Página: {} | Tamaño: {}", properties.getDefaultPage(), properties.getDefaultSize());
+                log.info("Consultando base de datos → Página: {} | Tamaño: {}", page, size);
 
-                List<CotizacionDTO> cotizaciones = dbFunctionCaller.getCotizaciones(properties.getDefaultPage(), properties.getDefaultSize());
+                List<CotizacionDTO> cotizaciones = dbFunctionCaller.getCotizaciones(page, size);
 
                 log.info("Cantidad registros obtenidos: {}", cotizaciones.size());
 
@@ -70,7 +73,7 @@ public class GenerarImpl {
                     boolean success = false;
                     int attempt = 0;
 
-                    while (!success && attempt < 2) {
+                    while (!success && attempt < 1) {
 
                         try {
 
@@ -111,20 +114,20 @@ public class GenerarImpl {
                                     ex.getMessage(),
                                     null);
 
-                            if (attempt >= 2) {
+                            if (attempt >= 1) {
                                 log.warn("Fila ID={} descartada después de 2 intentos", dto.getId());
                                 break;
                             }
                         }
                     }
                 }
-
-                if (properties.getAutoPaginate() && hayDatos) {
+                log.info("La propiedad AutoPaginate es true: {}", autoPaginate);
+                if (autoPaginate && hayDatos) {
                     page++;
-                    log.debug("Incrementando a siguiente página: {}", properties.getDefaultPage());
+                    log.debug("Incrementando a siguiente página: {}", page);
                 }
 
-            } while (hayDatos && properties.getAutoPaginate());
+            } while (hayDatos && autoPaginate);
 
             csvPrinter.flush();
             byte[] csvData = baos.toByteArray();

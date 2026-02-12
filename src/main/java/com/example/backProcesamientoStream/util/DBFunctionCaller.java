@@ -2,6 +2,7 @@ package com.example.backProcesamientoStream.util;
 
 import com.example.backProcesamientoStream.dto.CotizacionDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class DBFunctionCaller {
 
     private final JdbcTemplate jdbcTemplate;
