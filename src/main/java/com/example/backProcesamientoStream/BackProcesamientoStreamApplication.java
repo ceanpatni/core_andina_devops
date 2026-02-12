@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling  // habilita @Scheduled
 @EnableAsync       // habilita ejecución asíncrona
-@EnableConfigurationProperties(PropertiesConfig.class)
+@EnableConfigurationProperties
 public class BackProcesamientoStreamApplication {
 
 	public static void main(String[] args) {
